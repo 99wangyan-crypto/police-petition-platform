@@ -247,11 +247,6 @@
       body: '<p>为规范群众预约信访工作，提高接待效率，维护正常信访秩序，现将有关事项通告如下：</p><h3>一、实行实名预约</h3><p>群众通过本平台预约信访，应当如实填写真实姓名、身份证号码、手机号码等信息。预约到场时须出示本人身份证原件进行核验，预约资格不得转让、倒卖。冒用他人身份预约的，取消预约资格，并依法依规处理。</p><h3>二、规范预约规则</h3><ul><li>同一信访事项原则上只预约一次，一事项一约；</li><li>每名群众每月预约不超过2次，请合理安排来访计划；</li><li>预约开放未来5个工作日时段，约满即止；</li><li>如无法按时到场，请提前24小时在"预约查询"页面在线取消。</li></ul><h3>三、免费接待服务</h3><p>信访预约、接待、办理全程不收取任何费用。任何以"代办预约""加急办理""疏通关系"为名收取费用的行为均涉嫌诈骗，请广大群众提高警惕，发现相关线索请及时向公安机关举报。</p><h3>四、遵守信访秩序</h3><p>来访群众应当遵守法律法规和信访秩序，如实反映情况，文明理性表达诉求。多人反映共同事项的，请推选不超过5名代表来访。</p><h3>五、本通告自发布之日起施行</h3><p>请广大群众相互转告，感谢您对信访工作的理解和支持。</p>'
     },
     {
-      id: 'news-weekend', title: '关于增设周末预约专场的通知', date: '2026-07-15', tag: '通知',
-      summary: '为方便上班族群众来访，8月起每月第二周周六增设预约专场……',
-      body: '<p>为方便上班族群众来访，8月起每月第二周周六上午增设预约专场，具体时段以预约页面开放为准。</p><p>周末专场名额有限，请确有需要的群众提前预约，预约成功后按约定时间到场。</p>'
-    },
-    {
       id: 'news-anti-fraud', title: '关于防范以"信访代办"名义实施诈骗的提醒', date: '2026-07-08', tag: '提醒',
       summary: '信访不收费、代办是骗局。请广大群众切勿向任何个人或机构支付"打点费"……',
       body: '<p>近期发现个别不法分子打着"信访代办""内部关系""包办解决"的旗号向群众收取费用。特此提醒：</p><ul><li>信访预约、接待、办理全程不收取任何费用；</li><li>任何声称"花钱能办事""有关系能销号"的都是诈骗；</li><li>请通过本平台、12345政务服务热线等正规渠道反映问题；</li><li>如遇可疑情况，请及时报警。</li></ul>'
@@ -266,6 +261,16 @@
     list: function () {
       try { return JSON.parse(localStorage.getItem(ANN_KEY)) || []; }
       catch (e) { return []; }
+    },
+    /* 存量数据迁移：移除已下线的"增设周末预约专场"公告，保留后台维护的其他公告 */
+    migrate: function () {
+      try {
+        var arr = JSON.parse(localStorage.getItem(ANN_KEY)) || [];
+        var filtered = arr.filter(function (a) { return a.id !== 'news-weekend'; });
+        if (filtered.length !== arr.length) {
+          localStorage.setItem(ANN_KEY, JSON.stringify(filtered));
+        }
+      } catch (e) { /* 忽略损坏数据 */ }
     },
     seed: function () {
       if (localStorage.getItem('xf_ann_seeded_v2')) return;
@@ -306,6 +311,7 @@
     }
   };
   window.XF.announcements.seed();
+  window.XF.announcements.migrate();
 
   /* ---------- 公告详情渲染 ---------- */
   window.XF.announcements.renderDetail = function (root) {

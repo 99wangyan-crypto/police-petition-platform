@@ -162,7 +162,7 @@ body.contrast .input,body.contrast .select,body.contrast .textarea{border-color:
   border-radius:50%;background:radial-gradient(circle,rgba(245,182,10,.14),transparent 70%);
 }
 .banner-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:54px 16px;flex-wrap:wrap;position:relative;z-index:1}
-.banner-copy{max-width:620px}
+.banner-copy{max-width:780px}
 .banner-tag{
   display:inline-block;background:rgba(245,182,10,.16);border:1px solid rgba(245,182,10,.5);
   color:var(--gold);font-size:14px;padding:3px 14px;border-radius:20px;margin-bottom:18px;letter-spacing:1px;
@@ -170,10 +170,6 @@ body.contrast .input,body.contrast .select,body.contrast .textarea{border-color:
 .banner-copy h2{font-size:34px;line-height:1.35;letter-spacing:1px;margin-bottom:14px}
 .banner-copy p{color:#d3e0f4;font-size:16px;margin-bottom:28px;max-width:560px}
 .banner-actions{display:flex;gap:16px;flex-wrap:wrap}
-.banner-stats{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:14px;min-width:330px}
-.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:16px 18px;text-align:center}
-.stat b{display:block;font-size:26px;color:var(--gold);line-height:1.2}
-.stat span{font-size:13px;color:#cdd9ec}
 
 /* ---------- 快捷通道 ---------- */
 .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -485,7 +481,6 @@ body.contrast .input,body.contrast .select,body.contrast .textarea{border-color:
   .quick-grid{grid-template-columns:1fr 1fr}
   .flow-grid{grid-template-columns:1fr 1fr}
   .flow-step:not(:last-child)::after{display:none}
-  .banner-stats{min-width:100%}
 }
 @media(max-width:640px){
   .quick-grid,.flow-grid{grid-template-columns:1fr}
