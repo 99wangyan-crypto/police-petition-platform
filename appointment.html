@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预约信访 - 江苏省公安厅群众网上预约信访平台</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<!-- 顶部工具条 -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span id="today"></span>
+      <span class="sep">|</span>
+      <span>无障碍</span>
+      <span class="font-ctrl">
+        <button type="button" class="fc-btn" data-fs="0" aria-label="标准字号">A</button>
+        <button type="button" class="fc-btn" data-fs="1" aria-label="放大字号">A+</button>
+        <button type="button" class="fc-btn" data-fs="2" aria-label="更大字号">A++</button>
+      </span>
+      <button type="button" id="btn-contrast" class="fc-btn" style="background:none;border:none;color:#c9d4e6;padding:0 4px">高对比度</button>
+    </div>
+    <div class="topbar-right">
+      <a href="contact.html">联系我们</a>
+      <span class="sep">|</span>
+      <span>苏ICP备XXXXXXXX号（演示）</span>
+    </div>
+  </div>
+</div>
+
+<!-- 页头 -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" width="56" height="56" role="img" aria-label="江苏公安信访平台标识">
+        <defs>
+          <linearGradient id="jsxfGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#c21f2e"/>
+            <stop offset="1" stop-color="#12315e"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#jsxfGrad)"/>
+        <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#f5b60a" stroke-width="2"/>
+        <text x="32" y="23" text-anchor="middle" font-size="11" fill="#f5b60a" font-weight="bold">江苏</text>
+        <text x="32" y="47" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="bold">公安信访</text>
+      </svg>
+      <div class="brand-text">
+        <h1>江苏省公安厅</h1>
+        <p>群众网上预约信访平台</p>
+      </div>
+    </div>
+    <div class="header-hotline">025-83526140<span>预约咨询热线（暂定）</span></div>
+    <div class="header-time">接访时间：周一、二、四 8:30-11:30 / 14:00-17:00<br>周三、五 8:30-11:30（秋冬季下午 13:30-16:30）</div>
+  </div>
+</header>
+
+<!-- 主导航 -->
+<nav class="main-nav" id="mainNav" aria-label="主导航">
+  <div class="container nav-inner">
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">☰ 菜单</button>
+    <ul id="navList">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="appointment.html" class="active" aria-current="page">预约信访</a></li>
+      <li><a href="query.html">预约查询</a></li>
+      <li><a href="guide.html">信访指南</a></li>
+      <li><a href="news.html">通知公告</a></li>
+      <li><a href="policy.html">政策法规</a></li>
+      <li><a href="contact.html">联系我们</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main" class="container">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="index.html">首页</a> &gt; 预约信访</nav>
+  <h2 class="page-title">群众预约信访</h2>
+
+  <div class="appt-layout">
+    <div class="appt-main">
+      <!-- 步骤条 -->
+      <ol class="stepper" id="stepper" aria-label="预约步骤"></ol>
+
+      <form id="apptForm" novalidate>
+        <!-- 第1步：选择事项 -->
+        <section class="step" id="step1" aria-label="第一步：选择事项类别与具体类型">
+          <div class="card-title">第一步：选择信访事项类别与具体类型</div>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:14px">依据《信访工作条例》，信访事项分为申诉求决类、意见建议类、检举控告类。请先选择类别，再选择具体事项类型：</p>
+          <div class="opt-grid" id="catGrid"></div>
+          <div class="field" id="subWrap" hidden>
+            <label>请选择具体事项类型<span class="req">*</span></label>
+            <div class="opt-grid" id="subGrid"></div>
+          </div>
+          <div class="opt-hint" id="typeHint"></div>
+          <div class="step-nav">
+            <span></span>
+            <button type="button" class="btn btn-primary" id="btnNext1" disabled>下一步：选择时间</button>
+          </div>
+        </section>
+
+        <!-- 第2步：时间 -->
+        <section class="step" id="step2" hidden aria-label="第二步：选择预约时间">
+          <div class="card-title">第二步：选择预约日期与时段</div>
+          <div class="field">
+            <label>预约日期<span class="req">*</span></label>
+            <div class="date-chips" id="dateChips"></div>
+            <div class="field-tip">仅开放未来5个工作日（法定节假日除外）。接访时间：周一、二、四 8:30-11:30 / 14:00-17:00；周三、五 8:30-11:30（秋冬季下午 13:30-16:30）。</div>
+          </div>
+          <div class="field">
+            <label>预约时段<span class="req">*</span></label>
+            <div id="slotGroups"></div>
+          </div>
+          <div class="step-nav">
+            <button type="button" class="btn btn-outline btn-prev">上一步</button>
+            <button type="button" class="btn btn-primary" id="btnNext2" disabled>下一步：填写信息</button>
+          </div>
+        </section>
+
+        <!-- 第3步：填写信息 -->
+        <section class="step" id="step3" hidden aria-label="第三步：填写来访信息">
+          <div class="card-title">第三步：填写来访人信息</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="fName">来访人姓名<span class="req">*</span></label>
+              <input type="text" id="fName" class="input" maxlength="20" placeholder="与身份证件一致的姓名" autocomplete="name">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="fIdCard">身份证号码<span class="req">*</span></label>
+              <input type="text" id="fIdCard" class="input" maxlength="18" placeholder="18位身份证号码" autocomplete="off">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="fPhone">手机号码<span class="req">*</span></label>
+              <input type="tel" id="fPhone" class="input" maxlength="11" placeholder="用于接收预约通知短信" autocomplete="tel">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="fCode">短信验证码<span class="req">*</span></label>
+              <div class="code-row">
+                <input type="text" id="fCode" class="input" maxlength="6" placeholder="6位验证码" autocomplete="off">
+                <button type="button" class="btn btn-blue btn-sm" id="btnCode" style="white-space:nowrap">获取验证码</button>
+              </div>
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="fRegion">所在地区<span class="req">*</span></label>
+              <select id="fRegion" class="select">
+                <option value="">请选择设区市</option>
+                <option>南京市</option><option>无锡市</option><option>徐州市</option>
+                <option>常州市</option><option>苏州市</option><option>南通市</option>
+                <option>连云港市</option><option>淮安市</option><option>盐城市</option>
+                <option>扬州市</option><option>镇江市</option><option>泰州市</option>
+                <option>宿迁市</option>
+              </select>
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label>是否携带信访材料<span class="req">*</span></label>
+              <div style="display:flex;gap:26px;padding-top:8px">
+                <label class="check-row" style="margin:0"><input type="radio" name="materials" value="有" checked> 有（建议携带原件）</label>
+                <label class="check-row" style="margin:0"><input type="radio" name="materials" value="无"> 无</label>
+              </div>
+            </div>
+            <div class="field span-2">
+              <label for="fSummary">信访诉求摘要<span class="req">*</span></label>
+              <textarea id="fSummary" class="textarea" maxlength="200" placeholder="请简要说明反映的问题、诉求及前期处理情况（200字以内）。涉及证据材料的，请到场时一并携带。"></textarea>
+              <div class="err-msg"></div>
+              <div class="char-count" id="charCount">0 / 200 字</div>
+            </div>
+            <div class="field span-2">
+              <div class="field-tip" style="margin:0;padding:10px 14px;background:var(--blue-100);border-radius:6px">仅限本人实名预约，不接受代他人预约。到场时须出示本人身份证原件核验。</div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px">
+            <label class="check-row">
+              <input type="checkbox" id="ckAgree">
+              <span>我已阅读并同意<a href="#" onclick="window.showToast('演示：此处展示《预约须知》全文');return false;">《网上预约信访须知》</a>，保证所填信息真实、准确、有效。</span>
+            </label>
+            <label class="check-row">
+              <input type="checkbox" id="ckVerify">
+              <span>本人承诺：仅就本人或本组织依法有权反映的事项提出信访请求，所反映内容属实；不捏造、歪曲事实，不诬告、陷害他人。</span>
+            </label>
+          </div>
+
+          <div class="step-nav">
+            <button type="button" class="btn btn-outline btn-prev">上一步</button>
+            <button type="button" class="btn btn-primary" id="btnNext3" disabled>下一步：确认提交</button>
+          </div>
+        </section>
+
+        <!-- 第4步：确认提交 -->
+        <section class="step" id="step4" hidden aria-label="第四步：确认提交">
+          <div class="card-title">第四步：确认预约信息</div>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:16px">请核对以下信息，确认无误后提交。提交后系统将生成预约编号，凭编号可查询进度。</p>
+          <dl class="summary-list" id="confirmList"></dl>
+          <div class="step-nav">
+            <button type="button" class="btn btn-outline btn-prev">上一步</button>
+            <button type="submit" class="btn btn-primary btn-lg">确认提交预约</button>
+          </div>
+        </section>
+      </form>
+
+      <!-- 提交成功 -->
+      <div class="success-panel" id="successPanel" hidden>
+        <div class="success-icon">✓</div>
+        <h3>预约提交成功</h3>
+        <p class="s-sub">预约信息已保存，平台将在1个工作日内完成审核，并通过短信通知您预约结果。<br>请截图保存或打印本凭证，到场时出示。</p>
+        <div class="ticket">
+          <div class="t-head">
+            <span class="t-id" id="ticketId">YY202608170000</span>
+            <span class="t-status">待审核</span>
+          </div>
+          <dl>
+            <dt>来访人</dt><dd id="ticketName"></dd>
+            <dt>事项类别</dt><dd id="ticketType"></dd>
+            <dt>预约时间</dt><dd id="ticketTime"></dd>
+            <dt>携带材料</dt><dd id="ticketMaterials"></dd>
+          </dl>
+          <div class="t-remind">温馨提示：请提前10分钟到达接待大厅；如无法按时到场，请提前24小时在"预约查询"中取消。信访接待不收取任何费用。</div>
+        </div>
+        <div class="banner-actions" style="justify-content:center">
+          <button type="button" class="btn btn-primary" id="btnPrint">打印预约凭证</button>
+          <button type="button" class="btn btn-blue" id="btnSendSms">发送短信提醒（演示）</button>
+          <a href="index.html" class="btn btn-outline">返回首页</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="appt-side" aria-label="预约须知">
+      <div class="card">
+        <h3 class="card-title">网上预约须知</h3>
+        <ul style="font-size:14px;color:var(--muted);line-height:2">
+          <li>① 实名预约：仅限本人实名预约，到场核验身份证原件，预约资格不得转让，不接受代他人预约。</li>
+          <li>② 预约范围：开放未来5个工作日，一事项一约，每人每月预约不超过2次。</li>
+          <li>③ 取消规则：无法到场请提前24小时在线取消；未取消且失约将被记录。</li>
+          <li>④ 免费接待：预约、接访、办理全程不收取任何费用。</li>
+          <li>⑤ 绿色通道：老年人、残疾人等可电话预约或现场说明，优先安排。</li>
+          <li>⑥ 事项分类：按申诉求决类、意见建议类、检举控告类选择对应类型，办理进度可全程查询。</li>
+          <li>⑦ 接待时间：周一、二、四 8:30-11:30 / 14:00-17:00；周三、五 8:30-11:30（秋冬季下午 13:30-16:30）。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="card-title">办理时限（法定）</h3>
+        <table class="guide-table">
+          <tr><th>环节</th><th>时限</th></tr>
+          <tr><td>是否受理告知</td><td>收到信访事项之日起15日内</td></tr>
+          <tr><td>信访事项办结</td><td>受理之日起60日内</td></tr>
+          <tr><td>情况复杂延长</td><td>延长不得超过30日</td></tr>
+          <tr><td>不服答复申请复查</td><td>收到答复之日起30日内</td></tr>
+          <tr><td>复查意见作出</td><td>收到复查申请之日起30日内</td></tr>
+        </table>
+        <p style="font-size:13px;color:var(--muted);margin-top:10px">依据《信访工作条例》（2022年5月1日施行）。</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">重要提示</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.9">
+          涉及诉讼、仲裁、行政复议等法定程序的事项，请依法通过相应渠道反映（诉访分离）。<br>
+          切勿轻信"信访代办""花钱办事"等诈骗信息。
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="container footer-links">
+    <div class="fl-group">
+      <b>友情链接：</b>
+      <a href="#">江苏省人民政府</a>
+      <a href="#">公安部</a>
+      <a href="#">国家信访局</a>
+      <a href="#">江苏省网上信访平台</a>
+      <a href="#">江苏省政务服务网</a>
+    </div>
+  </div>
+  <div class="container footer-info">
+    <p>主办：江苏省公安厅（演示原型）　承办：厅办公室 / 信访处（演示）</p>
+    <p><a href="#">苏ICP备XXXXXXXX号-1</a>（演示）　苏公网安备 3201050201XXXX号（演示）　网站标识码：32000000XX（演示）</p>
+    <p>技术支持：演示环境　|　网站支持 IPv6　|　<a href="#">无障碍声明</a>　|　<a href="#">网站地图</a>　|　<a href="admin.html">后台管理入口</a></p>
+    <p class="disclaimer">本网站为设计原型，页面内容均为演示数据，正式上线前须按国家政务服务平台规范及网络安全等级保护三级要求建设。地址、电话等以官方公告为准。</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/appointment.js"></script>
+</body>
+</html>

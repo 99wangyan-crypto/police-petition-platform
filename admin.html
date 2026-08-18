@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>江苏公安信访 · 后台管理</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<!-- 顶部工具条 -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span id="today"></span>
+      <span class="sep">|</span>
+      <span>江苏公安信访 · 预约信访平台后台管理</span>
+    </div>
+    <div class="topbar-right">
+      <a href="index.html">返回前台</a>
+    </div>
+  </div>
+</div>
+
+<main id="main" class="container">
+
+  <!-- 登录界面 -->
+  <section class="login-wrap" id="loginView">
+    <div class="login-box">
+      <div class="lb-brand">
+        <svg class="logo" viewBox="0 0 64 64" width="46" height="46" role="img" aria-label="江苏公安信访">
+          <defs>
+            <linearGradient id="jsxfGrad2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#c21f2e"/>
+              <stop offset="1" stop-color="#12315e"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#jsxfGrad2)"/>
+          <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#f5b60a" stroke-width="2"/>
+          <text x="32" y="23" text-anchor="middle" font-size="11" fill="#f5b60a" font-weight="bold">江苏</text>
+          <text x="32" y="47" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="bold">公安信访</text>
+        </svg>
+        <h2>信访预约管理后台</h2>
+      </div>
+      <div class="lb-sub">江苏公安信访 · 群众网上预约信访平台（设计原型）</div>
+      <div class="login-tip">演示账号：<b>admin</b>　密码：<b>admin123</b><br>正式环境须接入统一身份认证与权限管理系统。</div>
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="loginUser">用户名<span class="req">*</span></label>
+          <input type="text" id="loginUser" class="input" placeholder="请输入用户名" autocomplete="username">
+          <div class="err-msg"></div>
+        </div>
+        <div class="field">
+          <label for="loginPass">密码<span class="req">*</span></label>
+          <input type="password" id="loginPass" class="input" placeholder="请输入密码" autocomplete="current-password">
+          <div class="err-msg"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">登 录</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 后台主体 -->
+  <div class="admin-shell" id="adminView" hidden>
+    <aside class="admin-side" aria-label="后台导航">
+      <div class="as-title">🎛️ 管理菜单</div>
+      <a href="#" data-view="dashboard" class="on">工作台</a>
+      <a href="#" data-view="appointments">预约管理</a>
+      <a href="#" data-view="notices">公告管理</a>
+      <a href="index.html">返回前台网站</a>
+    </aside>
+
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <h3 id="viewTitle">工作台</h3>
+        <span class="user">👤 管理员　<button type="button" class="btn btn-outline btn-sm" id="btnLogout">退出登录</button></span>
+      </div>
+
+      <!-- 工作台 -->
+      <section id="view-dashboard">
+        <div class="stat-cards">
+          <div class="stat-card hl"><b id="sTotal">0</b><span>预约总数</span></div>
+          <div class="stat-card"><b id="sToday">0</b><span>今日新增预约</span></div>
+          <div class="stat-card"><b id="sReview">0</b><span>待审核</span></div>
+          <div class="stat-card"><b id="sPending">0</b><span>待接访</span></div>
+          <div class="stat-card"><b id="sDone">0</b><span>已办结</span></div>
+          <div class="stat-card"><b id="sCancel">0</b><span>已取消/驳回</span></div>
+        </div>
+        <div class="card" style="margin-bottom:22px">
+          <h3 class="card-title">近 7 日预约趋势</h3>
+          <div class="bar-chart" id="chartBars"></div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">待办事项（待审核预约）</h3>
+          <div id="quickList"></div>
+        </div>
+      </section>
+
+      <!-- 预约管理 -->
+      <section id="view-appointments" hidden>
+        <div class="card">
+          <div class="filters">
+            <div class="field">
+              <label for="fStatus">状态筛选</label>
+              <select id="fStatus" class="select">
+                <option value="">全部状态</option>
+                <option>待审核</option><option>待接访</option><option>已接访</option>
+                <option>已办结</option><option>已驳回</option><option>已取消</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="fKeyword">关键字</label>
+              <input type="text" id="fKeyword" class="input" placeholder="预约编号 / 姓名 / 手机号">
+            </div>
+            <button type="button" class="btn btn-blue" id="btnFilter">查询</button>
+            <button type="button" class="btn btn-outline" id="btnReset">重置</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>预约编号</th><th>来访人</th><th>事项类别</th><th>预约时间</th>
+                  <th>状态</th><th>提交时间</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="apptTable"></tbody>
+            </table>
+          </div>
+          <p class="empty-tip" id="apptEmpty" hidden>暂无符合条件的预约记录。</p>
+        </div>
+      </section>
+
+      <!-- 公告管理 -->
+      <section id="view-notices" hidden>
+        <div class="card" style="margin-bottom:22px">
+          <h3 class="card-title" id="noticeFormTitle">新增公告</h3>
+          <form id="noticeForm" class="notice-form" novalidate>
+            <div class="field">
+              <label for="nTitle">标题<span class="req">*</span></label>
+              <input type="text" id="nTitle" class="input" maxlength="60" placeholder="公告标题">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="nDate">发布日期<span class="req">*</span></label>
+              <input type="date" id="nDate" class="input">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field">
+              <label for="nTag">标签</label>
+              <select id="nTag" class="select">
+                <option>公告</option><option>重要</option><option>通告</option>
+                <option>通知</option><option>动态</option><option>提醒</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="nSummary">摘要<span class="req">*</span></label>
+              <input type="text" id="nSummary" class="input" maxlength="120" placeholder="列表页显示的摘要">
+              <div class="err-msg"></div>
+            </div>
+            <div class="field span-2">
+              <label for="nBody">正文（支持段落与列表 HTML）</label>
+              <textarea id="nBody" class="textarea" placeholder="&lt;p&gt;正文内容…&lt;/p&gt;"></textarea>
+            </div>
+            <div style="display:flex;gap:10px;grid-column:1/-1;margin-bottom:10px">
+              <button type="submit" class="btn btn-primary" id="btnSaveNotice">发布公告</button>
+              <button type="button" class="btn btn-outline" id="btnResetNotice">清空</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <h3 class="card-title">已发布公告</h3>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead>
+                <tr><th>标题</th><th>日期</th><th>标签</th><th>操作</th></tr>
+              </thead>
+              <tbody id="noticeTable"></tbody>
+            </table>
+          </div>
+          <p class="empty-tip" id="noticeEmpty" hidden>暂无公告。</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
